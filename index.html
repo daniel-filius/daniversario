@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DANIversário · 28 anos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#15302a;
+    --night-2:#1c3d33;
+    --gold:#f0c75e;
+    --gold-soft:#e8b84b;
+    --terra:#d9683f;
+    --terra-deep:#bf4f2c;
+    --cream:#f6edd6;
+    --rose:#e98a6a;
+    --sky-top:#3a5b4e;
+    --sky-mid:#7a6a48;
+    --sky-glow:#e89a55;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--night);
+    color:var(--cream);
+    font-family:'Hanken Grotesk',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  /* ============ INTRO — semáforo de largada acende a página ============ */
+  #intro{position:fixed;inset:0;z-index:9999;background:#080c0a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .8s ease;}
+  #intro.fade{opacity:0;}
+  #intro .gantry{display:inline-flex;gap:12px;padding:16px 18px;background:#0a1411;border:1px solid rgba(0,0,0,.55);border-radius:12px;}
+  #intro .col{display:flex;flex-direction:column;gap:10px;}
+  #intro .lt{width:30px;height:30px;border-radius:50%;background:#2a0b0b;box-shadow:inset 0 2px 4px rgba(0,0,0,.6);transition:background .25s ease, box-shadow .25s ease;}
+  #intro .lt.on{background:#ff2626;box-shadow:0 0 20px 6px rgba(255,45,45,.7),inset 0 -3px 5px rgba(120,0,0,.7),inset 0 3px 6px rgba(255,190,190,.6);}
+  #intro .cap{position:relative;height:54px;width:90%;max-width:520px;display:flex;align-items:center;justify-content:center;text-align:center;}
+  #intro .cue,#intro .phrase{position:absolute;left:0;right:0;font-family:'Caveat',cursive;font-weight:700;}
+  #intro .cue{color:#caa84a;font-size:22px;opacity:.85;transition:opacity .35s ease;}
+  #intro .phrase{color:#f0c75e;font-size:clamp(26px,6vw,46px);opacity:0;transform:translateY(6px);transition:opacity .55s ease, transform .55s ease;}
+  #intro.go .cue{opacity:0;}
+  #intro.go .phrase{opacity:1;transform:none;}
+  #intro .skip{position:absolute;bottom:22px;right:24px;background:rgba(246,237,214,.08);color:#f6edd6;border:1.5px solid rgba(246,237,214,.3);border-radius:999px;padding:9px 18px;font-family:'Hanken Grotesk',sans-serif;font-size:13px;cursor:pointer;transition:background .2s;}
+  #intro .skip:hover{background:rgba(246,237,214,.16);}
+  @media (prefers-reduced-motion: reduce){#intro{display:none !important;}}
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;min-height:100svh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:210px 24px 90px;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 60% at 50% 6%, var(--sky-glow) 0%, rgba(232,154,85,0) 46%),
+      linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 24%, var(--night-2) 58%, var(--night) 100%);
+  }
+  .sun{
+    position:absolute;top:7vh;left:50%;transform:translateX(-50%);
+    width:min(620px,90vw);height:min(340px,40vh);border-radius:50%;
+    background:radial-gradient(ellipse at center, rgba(246,233,200,.5) 0%, rgba(240,199,94,.4) 32%, rgba(217,104,63,.2) 60%, rgba(217,104,63,0) 75%);
+    filter:blur(6px);animation:breathe 7s ease-in-out infinite;pointer-events:none;
+  }
+  @keyframes breathe{0%,100%{opacity:.9;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.04)}}
+
+  .hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:clamp(120px,18vh,260px);display:block;z-index:1;pointer-events:none;}
+
+  #flies{position:absolute;inset:0;z-index:1;pointer-events:none;}
+  .firefly{position:absolute;width:6px;height:6px;border-radius:50%;
+    background:radial-gradient(circle,#fff6cf 0%,var(--gold) 45%,rgba(240,199,94,0) 75%);
+    filter:drop-shadow(0 0 5px rgba(240,199,94,.9));}
+  @keyframes drift{0%{transform:translate(0,0);opacity:0}15%{opacity:1}50%{transform:translate(var(--dx),var(--dy));opacity:.9}85%{opacity:1}100%{transform:translate(0,0);opacity:0}}
+
+  .hero-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;}
+
+  .eyebrow{
+    display:flex;align-items:center;gap:16px;white-space:nowrap;
+    font-size:clamp(12px,1.4vw,15px);font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+    padding-left:.3em;opacity:.92;
+  }
+  .eyebrow .ln{width:clamp(24px,4vw,46px);height:1.5px;background:var(--cream);opacity:.5;}
+
+  .script{
+    font-family:'Caveat',cursive;color:var(--gold);white-space:nowrap;
+    font-size:clamp(30px,4.5vw,48px);font-weight:700;line-height:1;
+    margin-top:26px;transform:rotate(-2.5deg);
+  }
+  .hero h1{
+    font-family:'Gloock',serif;font-weight:400;
+    font-size:clamp(140px,22vw,300px);line-height:.85;letter-spacing:-.02em;
+    margin:30px 0 0;text-shadow:0 10px 50px rgba(0,0,0,.45);
+  }
+  .anos{
+    font-family:'Hanken Grotesk',sans-serif;font-weight:600;
+    font-size:clamp(15px,2vw,20px);letter-spacing:.5em;text-transform:uppercase;
+    color:var(--gold);margin-top:14px;padding-left:.5em;
+  }
+  .tagline{
+    font-size:clamp(17px,2.4vw,24px);line-height:1.5;font-weight:400;
+    margin-top:26px;max-width:560px;text-wrap:balance;opacity:.95;
+  }
+  .tagline b{font-weight:600;color:#fff;}
+
+  /* countdown */
+  .count{display:flex;align-items:flex-start;gap:clamp(14px,3vw,34px);margin-top:38px;}
+  .count .u{display:flex;flex-direction:column;align-items:center;min-width:58px;}
+  .count .n{font-family:'Gloock',serif;font-size:clamp(40px,7vw,64px);line-height:1;color:var(--cream);}
+  .count .l{font-size:clamp(11px,1.4vw,13px);letter-spacing:.22em;text-transform:uppercase;margin-top:8px;color:var(--gold);}
+  .count .sep{font-family:'Gloock',serif;font-size:clamp(34px,6vw,54px);color:var(--terra);opacity:.7;line-height:1.1;}
+  .lights-out{font-family:'Caveat',cursive;color:var(--gold);font-size:clamp(18px,2.4vw,24px);font-weight:700;margin-top:18px;opacity:.92;}
+  footer .laps{font-size:13px;letter-spacing:.02em;opacity:.55;margin-top:8px;}
+
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:42px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+    font-weight:600;font-size:clamp(15px,1.8vw,17px);letter-spacing:.01em;
+    padding:15px 30px;border-radius:999px;transition:transform .15s ease, box-shadow .2s, background .2s;
+  }
+  .btn-primary{background:var(--terra);color:#fff;box-shadow:0 10px 26px rgba(217,104,63,.4);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(217,104,63,.5);}
+  .btn-ghost{background:rgba(246,237,214,.08);color:var(--cream);border:1.5px solid rgba(246,237,214,.32);}
+  .btn-ghost:hover{background:rgba(246,237,214,.16);transform:translateY(-2px);}
+
+  .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;
+    font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.6;display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .scrollcue .arr{width:1.5px;height:30px;background:linear-gradient(var(--cream),transparent);animation:bob 1.8s ease-in-out infinite;}
+  @keyframes bob{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.9;transform:translateY(5px)}}
+
+  /* ============ DETAILS STRIP ============ */
+  .strip{
+    background:var(--night-2);
+    border-top:1px solid rgba(246,237,214,.08);
+    border-bottom:1px solid rgba(246,237,214,.08);
+    padding:30px 24px;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+    gap:clamp(20px,5vw,64px);
+  }
+  .strip .item{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;}
+  .strip .k{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);}
+  .strip .v{font-size:clamp(17px,2.2vw,21px);font-weight:500;}
+  .strip .dv{width:1px;height:40px;background:rgba(246,237,214,.16);}
+
+  /* ============ TEASER ============ */
+  .section{max-width:1120px;margin:0 auto;padding:clamp(70px,11vw,120px) 24px;}
+  .sec-head{text-align:center;margin-bottom:54px;}
+  .sec-head .psiu{font-family:'Caveat',cursive;color:var(--rose);font-size:clamp(26px,4vw,38px);font-weight:700;transform:rotate(-2deg);display:inline-block;}
+  .sec-head h2{font-family:'Gloock',serif;font-weight:400;font-size:clamp(32px,5vw,52px);margin-top:6px;line-height:1.05;text-wrap:balance;}
+  .sec-head p{margin-top:16px;font-size:clamp(16px,2vw,19px);opacity:.8;max-width:580px;margin-inline:auto;line-height:1.55;}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+  .card{
+    background:linear-gradient(160deg, rgba(246,237,214,.06), rgba(246,237,214,.02));
+    border:1px solid rgba(246,237,214,.1);border-radius:20px;
+    padding:32px 28px;display:flex;flex-direction:column;gap:12px;
+    transition:transform .2s ease, border-color .2s, background .2s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(240,199,94,.4);}
+  .card .ico{font-family:'Gloock',serif;font-size:34px;color:var(--gold);line-height:1;}
+  .card h3{font-size:clamp(19px,2.4vw,23px);font-weight:600;}
+  .card p{font-size:15px;line-height:1.55;opacity:.78;}
+
+  /* ============ PAGES NAV ============ */
+  .pages{background:var(--night-2);border-top:1px solid rgba(246,237,214,.08);}
+  .pages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+  .pcard{
+    position:relative;display:flex;flex-direction:column;gap:8px;
+    background:linear-gradient(160deg, rgba(246,237,214,.07), rgba(246,237,214,.02));
+    border:1px solid rgba(246,237,214,.12);border-radius:18px;padding:26px 26px 24px;
+    transition:transform .2s ease, border-color .2s;
+  }
+  .pcard.live:hover{transform:translateY(-4px);border-color:var(--terra);}
+  .pcard .tag{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;}
+  .pcard.live .tag{color:var(--gold);}
+  .pcard.soon{opacity:.62;}
+  .pcard.soon .tag{color:var(--rose);}
+  .pcard h3{font-family:'Gloock',serif;font-weight:400;font-size:clamp(22px,2.6vw,28px);}
+  .pcard p{font-size:14.5px;line-height:1.5;opacity:.78;}
+  .pcard .go{margin-top:6px;font-weight:600;font-size:15px;color:var(--gold);display:flex;align-items:center;gap:8px;}
+
+  /* ============ FOOTER ============ */
+  footer{text-align:center;padding:54px 24px 70px;background:var(--night);}
+  footer .mark{font-family:'Caveat',cursive;color:var(--gold);font-size:30px;font-weight:700;}
+  footer p{margin-top:10px;font-size:14px;opacity:.6;}
+  footer .star{color:var(--terra);}
+
+  @media (max-width:560px){
+    .count .sep{display:none;}
+    .strip .dv{display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ INTRO — semáforo de largada ============ -->
+  <div id="intro" aria-hidden="true">
+    <div class="gantry">
+      <div class="col"><span class="lt"></span><span class="lt"></span></div>
+      <div class="col"><span class="lt"></span><span class="lt"></span></div>
+      <div class="col"><span class="lt"></span><span class="lt"></span></div>
+      <div class="col"><span class="lt"></span><span class="lt"></span></div>
+      <div class="col"><span class="lt"></span><span class="lt"></span></div>
+    </div>
+    <div class="cap">
+      <span class="cue">aguardando a largada…</span>
+      <span class="phrase">🏁 luzes apagadas e lá vamos nós</span>
+    </div>
+    <button class="skip" type="button">pular ›</button>
+  </div>
+  <script>if(sessionStorage.getItem('daniIntro')||matchMedia('(prefers-reduced-motion: reduce)').matches){var _i=document.getElementById('intro');if(_i)_i.style.display='none';}</script>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" data-screen-label="Home hero">
+    <div class="sun"></div>
+    <div id="flies" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <div class="eyebrow"><span class="ln"></span>1 &amp; 2 de Agosto · 2026<span class="ln"></span></div>
+      <div class="script">o Dani vai fazer</div>
+      <h1>28</h1>
+      <div class="anos">anos</div>
+      <p class="tagline">Uma festa na chácara, <b>com a galera, virando a noite.</b> Esse é o cantinho oficial com tudo que você precisa saber.</p>
+
+      <div class="count" id="count" aria-label="Contagem regressiva">
+        <div class="u"><span class="n" id="cd">––</span><span class="l">dias</span></div>
+        <span class="sep">:</span>
+        <div class="u"><span class="n" id="ch">––</span><span class="l">horas</span></div>
+        <span class="sep">:</span>
+        <div class="u"><span class="n" id="cm">––</span><span class="l">min</span></div>
+        <span class="sep">:</span>
+        <div class="u"><span class="n" id="cs">––</span><span class="l">seg</span></div>
+      </div>
+      <div class="lights-out">🏁 luzes apagadas e lá vamos nós</div>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#convite">Ver o convite <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#pages">O que tem por aqui</a>
+      </div>
+    </div>
+
+    <svg class="hills" viewBox="0 0 1200 280" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,150 C200,100 380,128 600,142 C800,156 980,118 1200,150 L1200,280 L0,280 Z" fill="#11261f"/>
+      <path d="M0,210 C260,170 460,200 700,206 C920,212 1040,188 1200,212 L1200,280 L0,280 Z" fill="#0c1c16"/>
+    </svg>
+
+    <div class="scrollcue"><span>role</span><span class="arr"></span></div>
+  </header>
+
+  <!-- ============ DETAILS STRIP ============ -->
+  <section class="strip">
+    <div class="item"><span class="k">Quando</span><span class="v">1 → 2 de Agosto</span></div>
+    <div class="dv"></div>
+    <div class="item"><span class="k">Onde</span><span class="v">Na chácara</span></div>
+    <div class="dv"></div>
+    <div class="item"><span class="k">Vibe</span><span class="v">A gente dorme lá</span></div>
+    <div class="dv"></div>
+    <div class="item"><span class="k">Trazer</span><span class="v">Só a fome e a sunga</span></div>
+  </section>
+
+  <!-- ============ TEASER ============ -->
+  <section class="section" id="convite">
+    <div class="sec-head">
+      <span class="psiu">psiu… spoiler</span>
+      <h2>O que te espera na chácara</h2>
+      <p>Vira o dia inteiro: começa de tarde no sol e segue noite adentro. Aqui vai uma prévia.</p>
+    </div>
+    <div class="cards">
+      <div class="card"><span class="ico">01</span><h3>Chopp gelado</h3><p>Open bar com chopp — dessa vez vai pra valer. Copo cheio do início ao fim.</p></div>
+      <div class="card"><span class="ico">02</span><h3>Piscina</h3><p>Pra fugir do sol da tarde e relaxar. Não esquece a sunga (e o protetor).</p></div>
+      <div class="card"><span class="ico">03</span><h3>Churrasco</h3><p>A brasa acesa a tarde toda, com a galera em volta. O coração da festa.</p></div>
+      <div class="card"><span class="ico">04</span><h3>E quando a noite cai…</h3><p>Tem fatia extra esperando. A festa só muda de marcha quando escurece.</p></div>
+      <div class="card"><span class="ico">05</span><h3>Pole position</h3><p>A F1 tá de recesso nesse fim de semana — então a única corrida aqui é pra garantir a melhor espreguiçadeira na beira da piscina. Chega cedo.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ PAGES NAV ============ -->
+  <section class="pages" id="pages">
+    <div class="section">
+      <div class="sec-head">
+        <span class="psiu">o site</span>
+        <h2>Tudo num lugar só</h2>
+        <p>Vou soltando as páginas por aqui conforme a festa se aproxima. Volta sempre.</p>
+      </div>
+      <div class="pages-grid">
+        <div class="pcard soon">
+          <span class="tag">Em breve</span>
+          <h3>O Convite</h3>
+          <p>Programação completa, horários, como chegar e o que levar.</p>
+        </div>
+        <div class="pcard soon">
+          <span class="tag">Em breve</span>
+          <h3>Confirmar presença</h3>
+          <p>Me avisa se vem — e se vai dormir na chácara ou voltar.</p>
+        </div>
+        <div class="pcard soon">
+          <span class="tag">Em breve</span>
+          <h3>Como chegar</h3>
+          <p>Mapa, ponto de encontro e dicas de carona pra não se perder.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="mark">nos vemos lá ✦</div>
+    <p>DANIversário · 28 anos · 1 &amp; 2 de Agosto de 2026</p>
+    <p class="laps">🏁 largada às 13h · bandeira quadriculada quando o bar fecha, às 23h</p>
+  </footer>
+
+<script>
+  // ---- intro: o semáforo de largada "acende" a página ----
+  (function(){
+    const intro=document.getElementById('intro');
+    if(!intro || intro.style.display==='none') return;
+    const cols=intro.querySelectorAll('.col');
+    const skip=intro.querySelector('.skip');
+    const html=document.documentElement;
+    html.style.overflow='hidden';
+    let timers=[];
+    const T=(fn,ms)=>timers.push(setTimeout(fn,ms));
+    function finish(){
+      timers.forEach(clearTimeout); timers=[];
+      intro.classList.add('fade');
+      html.style.overflow='';
+      try{sessionStorage.setItem('daniIntro','1');}catch(e){}
+      setTimeout(()=>{ if(intro.parentNode) intro.remove(); },850);
+    }
+    [600,1200,1800,2400,3000].forEach((ms,i)=>T(()=>{
+      cols[i].querySelectorAll('.lt').forEach(l=>l.classList.add('on'));
+    },ms));
+    T(()=>{                                   // apagão + entra a frase
+      intro.querySelectorAll('.lt').forEach(l=>l.classList.remove('on'));
+      intro.classList.add('go');
+    },3800);
+    T(finish,7000);                           // segura a frase ~3,2s antes da hero
+    if(skip) skip.addEventListener('click',finish);
+  })();
+
+  // ---- fireflies ----
+  (function(){
+    const wrap=document.getElementById('flies'); if(!wrap) return;
+    const N=20;
+    for(let i=0;i<N;i++){
+      const f=document.createElement('div'); f.className='firefly';
+      f.style.left=(Math.random()*100)+'%';
+      f.style.top=(45+Math.random()*55)+'%';
+      f.style.setProperty('--dx',(Math.random()*160-80)+'px');
+      f.style.setProperty('--dy',(-Math.random()*150-30)+'px');
+      const dur=6+Math.random()*7;
+      f.style.animation=`drift ${dur}s ease-in-out ${Math.random()*dur}s infinite`;
+      const s=4+Math.random()*5; f.style.width=s+'px'; f.style.height=s+'px';
+      wrap.appendChild(f);
+    }
+  })();
+
+  // ---- countdown to Aug 1, 2026 16:00 ----
+  (function(){
+    const target=new Date('2026-08-01T16:00:00-03:00').getTime();
+    const dE=document.getElementById('cd'),hE=document.getElementById('ch'),mE=document.getElementById('cm'),sE=document.getElementById('cs');
+    function pad(n){return String(n).padStart(2,'0');}
+    function tick(){
+      const diff=target-Date.now();
+      if(diff<=0){ dE.textContent='00';hE.textContent='00';mE.textContent='00';sE.textContent='00'; return; }
+      const d=Math.floor(diff/86400000);
+      const h=Math.floor(diff%86400000/3600000);
+      const m=Math.floor(diff%3600000/60000);
+      const s=Math.floor(diff%60000/1000);
+      dE.textContent=pad(d);hE.textContent=pad(h);mE.textContent=pad(m);sE.textContent=pad(s);
+    }
+    tick(); setInterval(tick,1000);
+  })();
+</script>
+</body>
+</html>

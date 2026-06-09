@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Save the Date · DANIversário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#15302a;
+    --night-2:#1c3d33;
+    --gold:#f0c75e;
+    --gold-soft:#e8b84b;
+    --terra:#d9683f;
+    --terra-deep:#bf4f2c;
+    --cream:#f6edd6;
+    --rose:#e98a6a;
+    --sky-top:#3a5b4e;
+    --sky-mid:#7a6a48;
+    --sky-glow:#e89a55;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;background:#0c1612;overflow:hidden;}
+  body{
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Hanken Grotesk',sans-serif;
+  }
+
+  /* ---- Stage / scaling ---- */
+  #stage{
+    position:relative;
+    width:1080px;height:1920px;
+    transform-origin:center center;
+  }
+  .card{
+    position:absolute;inset:0;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 70% at 50% 8%, var(--sky-glow) 0%, rgba(232,154,85,0) 42%),
+      linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 26%, var(--night-2) 56%, var(--night) 100%);
+  }
+
+  /* sun glow */
+  .sun{
+    position:absolute;top:150px;left:50%;transform:translateX(-50%);
+    width:600px;height:380px;border-radius:50%;
+    background:radial-gradient(ellipse at center, rgba(246,233,200,.55) 0%, rgba(240,199,94,.42) 32%, rgba(217,104,63,.22) 60%, rgba(217,104,63,0) 75%);
+    filter:blur(6px);
+    animation:breathe 7s ease-in-out infinite;
+  }
+  @keyframes breathe{0%,100%{transform:translateX(-50%) scale(1);opacity:.95}50%{transform:translateX(-50%) scale(1.05);opacity:1}}
+
+  /* hills silhouette */
+  .hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:300px;display:block;z-index:1;}
+
+  /* string lights */
+  .lights{position:absolute;top:0;left:0;width:100%;height:230px;}
+  .bulb{transform-origin:top center;}
+  .bulb circle{filter:drop-shadow(0 0 9px rgba(240,199,94,.9));}
+
+  /* content */
+  .content{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:170px 90px 100px;}
+  .top{display:flex;flex-direction:column;align-items:center;}
+
+  .teaser{display:flex;flex-direction:column;align-items:center;gap:26px;max-width:660px;}
+  .teaser .psiu{font-family:'Caveat',cursive;color:var(--rose);font-size:46px;font-weight:700;white-space:nowrap;transform:rotate(-2deg);line-height:1;}
+  .teaser p{color:var(--cream);font-size:31px;line-height:1.5;opacity:.9;text-wrap:balance;font-weight:400;}
+  .teaser p b{color:var(--gold);font-weight:600;font-style:italic;}
+
+  .eyebrow{
+    display:flex;align-items:center;gap:20px;
+    color:var(--cream);
+    font-size:29px;font-weight:600;letter-spacing:.38em;text-transform:uppercase;white-space:nowrap;
+    padding-left:.38em;
+    opacity:.92;
+  }
+  .eyebrow .ln{width:54px;height:1.5px;background:var(--cream);opacity:.55;}
+
+  .script{
+    font-family:'Caveat',cursive;
+    color:var(--gold);
+    font-size:80px;line-height:1;font-weight:700;white-space:nowrap;
+    margin-top:50px;
+    transform:rotate(-2.5deg);
+    text-shadow:0 2px 20px rgba(0,0,0,.3);
+  }
+
+  .hero{
+    font-family:'Gloock',serif;
+    color:var(--cream);
+    font-size:380px;line-height:.85;
+    margin:34px 0 0;
+    letter-spacing:-.02em;
+    text-shadow:0 10px 50px rgba(0,0,0,.45);
+    position:relative;
+  }
+  .anos{
+    font-family:'Hanken Grotesk',sans-serif;font-weight:600;
+    font-size:38px;letter-spacing:.5em;text-transform:uppercase;white-space:nowrap;
+    color:var(--gold);margin-top:18px;padding-left:.5em;
+  }
+
+  .sub{
+    color:var(--cream);
+    font-size:38px;line-height:1.5;font-weight:400;
+    margin-top:36px;max-width:700px;text-wrap:balance;
+    opacity:.95;
+  }
+  .sub b{font-weight:600;color:#fff;}
+
+  /* date block */
+  .datebar{
+    display:flex;flex-direction:column;align-items:center;gap:18px;
+  }
+  .dates{
+    display:flex;align-items:stretch;gap:0;
+    color:var(--cream);
+  }
+  .dcol{display:flex;flex-direction:column;align-items:center;padding:0 46px;}
+  .dcol .d{font-family:'Gloock',serif;font-size:108px;line-height:1;color:var(--cream);}
+  .dcol .m{font-size:26px;letter-spacing:.35em;text-transform:uppercase;margin-top:10px;color:var(--gold);padding-left:.35em;font-weight:600;}
+  .amp{display:flex;align-items:center;font-family:'Caveat',cursive;font-size:64px;color:var(--terra);}
+  .divider-v{width:1.5px;background:linear-gradient(var(--cream),transparent);opacity:.3;}
+
+  .place{
+    color:var(--cream);font-size:32px;font-weight:500;white-space:nowrap;
+    letter-spacing:.03em;margin-top:14px;
+    display:flex;align-items:center;gap:16px;
+  }
+  .place .dot{width:7px;height:7px;border-radius:50%;background:var(--terra);}
+
+  .foot{
+    margin-top:34px;
+    color:var(--cream);opacity:.78;
+    font-size:27px;font-weight:400;letter-spacing:.02em;white-space:nowrap;
+    display:flex;align-items:center;gap:14px;
+  }
+  .foot .star{color:var(--gold);font-size:24px;}
+
+  /* fireflies */
+  .firefly{position:absolute;width:7px;height:7px;border-radius:50%;
+    background:radial-gradient(circle,#fff6cf 0%,var(--gold) 45%,rgba(240,199,94,0) 75%);
+    filter:drop-shadow(0 0 6px rgba(240,199,94,.9));}
+  @keyframes drift{
+    0%{transform:translate(0,0);opacity:0}
+    15%{opacity:1}
+    50%{transform:translate(var(--dx),var(--dy));opacity:.9}
+    85%{opacity:1}
+    100%{transform:translate(0,0);opacity:0}
+  }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <div class="card" data-screen-label="Save the Date">
+
+      <div class="sun"></div>
+
+      <!-- string lights -->
+      <svg class="lights" viewBox="0 0 1080 230" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M-20,18 Q270,150 540,84 T1100,18" fill="none" stroke="rgba(246,237,214,.45)" stroke-width="2.5"/>
+        <g id="bulbs"></g>
+      </svg>
+
+      <!-- fireflies -->
+      <div id="flies" aria-hidden="true"></div>
+
+      <div class="content">
+        <div class="top">
+          <div class="eyebrow"><span class="ln"></span>Guarde a data<span class="ln"></span></div>
+
+          <div class="script">o Dani vai fazer</div>
+          <div class="hero">28</div>
+          <div class="anos">anos</div>
+
+          <p class="sub">E quero você lá pra comemorar: <b>na chácara, com a galera, virando a noite.</b></p>
+        </div>
+
+        <div class="teaser">
+          <div class="psiu">psiu… spoiler</div>
+          <p>Chopp gelado no copo (dessa vez vai!), piscina pra fugir do sol, churrasco rolando a tarde toda — e, quando a noite cair, ainda tem <b>fatia</b> extra.</p>
+        </div>
+
+        <div class="datebar">
+          <div class="dates">
+            <div class="dcol"><span class="d">01</span><span class="m">Ago</span></div>
+            <div class="amp">&amp;</div>
+            <div class="dcol"><span class="d">02</span><span class="m">Ago</span></div>
+          </div>
+          <div class="place"><span class="dot"></span>Na chácara · a gente dorme lá<span class="dot"></span></div>
+          <div class="foot"><span class="star">✦</span>O convite com todos os detalhes chega já já<span class="star">✦</span></div>
+        </div>
+      </div>
+
+      <!-- hills -->
+      <svg class="hills" viewBox="0 0 1080 360" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,180 C180,120 340,150 520,168 C720,188 880,140 1080,176 L1080,360 L0,360 Z" fill="#11261f"/>
+        <path d="M0,250 C240,200 420,236 640,244 C840,252 960,224 1080,250 L1080,360 L0,360 Z" fill="#0c1c16"/>
+      </svg>
+
+    </div>
+  </div>
+
+<script>
+  // ---- string light bulbs along the curve ----
+  (function(){
+    const g=document.getElementById('bulbs');
+    const N=14;
+    function curveY(t){
+      // approx of the quadratic/T path peak dip
+      return 18 + Math.sin(t*Math.PI)*120 - (t>0.5?0:0);
+    }
+    for(let i=0;i<N;i++){
+      const t=i/(N-1);
+      const x=-20 + t*1120;
+      // sample the visual curve: dips in middle
+      const y=22 + Math.sin(t*Math.PI)*116;
+      const cores=['#f0c75e','#e8b84b','#f6edd6','#d9683f'];
+      const c=cores[i%cores.length];
+      const ns='http://www.w3.org/2000/svg';
+      const grp=document.createElementNS(ns,'g');
+      grp.setAttribute('class','bulb');
+      grp.setAttribute('transform',`translate(${x},${y})`);
+      const line=document.createElementNS(ns,'line');
+      line.setAttribute('x1',0);line.setAttribute('y1',0);line.setAttribute('x2',0);line.setAttribute('y2',16);
+      line.setAttribute('stroke','rgba(246,237,214,.4)');line.setAttribute('stroke-width','2');
+      const circ=document.createElementNS(ns,'circle');
+      circ.setAttribute('cx',0);circ.setAttribute('cy',24);circ.setAttribute('r',9);
+      circ.setAttribute('fill',c);
+      grp.appendChild(line);grp.appendChild(circ);
+      // gentle twinkle
+      circ.style.animation=`breathe ${3+ (i%4)*0.6}s ease-in-out ${i*0.2}s infinite`;
+      g.appendChild(grp);
+    }
+  })();
+
+  // ---- fireflies ----
+  (function(){
+    const wrap=document.getElementById('flies');
+    const N=22;
+    for(let i=0;i<N;i++){
+      const f=document.createElement('div');
+      f.className='firefly';
+      const x=Math.random()*1080, y=700+Math.random()*1050;
+      f.style.left=x+'px';f.style.top=y+'px';
+      f.style.setProperty('--dx',(Math.random()*180-90)+'px');
+      f.style.setProperty('--dy',(-Math.random()*160-40)+'px');
+      const dur=6+Math.random()*7;
+      f.style.animation=`drift ${dur}s ease-in-out ${Math.random()*dur}s infinite`;
+      const s=5+Math.random()*5;f.style.width=s+'px';f.style.height=s+'px';
+      wrap.appendChild(f);
+    }
+  })();
+
+  // ---- scale to fit viewport ----
+  function fit(){
+    const s=Math.min(window.innerWidth/1080, window.innerHeight/1920);
+    document.getElementById('stage').style.transform=`scale(${s})`;
+  }
+  window.addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

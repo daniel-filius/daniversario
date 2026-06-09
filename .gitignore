@@ -1,0 +1,21 @@
+# === Planejamento privado — NÃO publicar (o site é público) ===
+# A planilha de orçamento tem valores e contatos; fica só na sua máquina.
+DANIversario_2026_plano.xlsx
+*.xlsx
+*.xls
+
+# Locks e temporários do LibreOffice / Excel
+.~lock.*#
+~$*
+
+# Lixo de sistema operacional
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.tmp
