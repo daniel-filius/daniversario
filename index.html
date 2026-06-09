@@ -144,6 +144,18 @@
   .strip .v{font-size:clamp(17px,2.2vw,21px);font-weight:500;}
   .strip .dv{width:1px;height:40px;background:rgba(246,237,214,.16);}
 
+  /* ============ PREVISÃO DO TEMPO ============ */
+  .weather{background:var(--night-2);border-bottom:1px solid rgba(246,237,214,.08);padding:4px 24px 34px;display:flex;justify-content:center;}
+  .wx-card{display:flex;align-items:center;gap:20px;width:min(540px,92vw);
+    background:linear-gradient(160deg,rgba(246,237,214,.07),rgba(246,237,214,.02));border:1px solid rgba(246,237,214,.12);border-radius:18px;padding:18px 24px;}
+  .wx-ico{font-size:42px;line-height:1;flex:none;}
+  .wx-main{flex:1;text-align:left;}
+  .wx-k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);}
+  .wx-temp{font-family:'Gloock',serif;font-size:30px;color:var(--cream);line-height:1.15;margin-top:2px;}
+  .wx-temp small{font-family:'Hanken Grotesk',sans-serif;font-size:15px;opacity:.7;}
+  .wx-desc{font-size:14px;opacity:.85;margin-top:1px;}
+  .wx-foot{font-size:12.5px;opacity:.6;margin-top:6px;line-height:1.4;}
+
   /* ============ TEASER ============ */
   .section{max-width:1120px;margin:0 auto;padding:clamp(70px,11vw,120px) 24px;}
   .sec-head{text-align:center;margin-bottom:54px;}
@@ -260,6 +272,19 @@
     <div class="item"><span class="k">Trazer</span><span class="v">Só a fome e a sunga</span></div>
   </section>
 
+  <!-- ============ PREVISÃO DO TEMPO (Open-Meteo · atualiza sozinha) ============ -->
+  <section class="weather" aria-live="polite">
+    <div class="wx-card">
+      <div class="wx-ico" id="wx-ico" aria-hidden="true">⛅</div>
+      <div class="wx-main">
+        <div class="wx-k">O tempo na chácara</div>
+        <div class="wx-temp" id="wx-temp">carregando…</div>
+        <div class="wx-desc" id="wx-desc"></div>
+        <div class="wx-foot" id="wx-foot"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ TEASER ============ -->
   <section class="section" id="convite">
     <div class="sec-head">
@@ -372,6 +397,65 @@
       dE.textContent=pad(d);hE.textContent=pad(h);mE.textContent=pad(m);sE.textContent=pad(s);
     }
     tick(); setInterval(tick,1000);
+  })();
+
+  // ---- previsão do tempo (Open-Meteo, sem chave) ----
+  (function(){
+    const LAT=-23.208, LON=-46.787, TZ='America/Sao_Paulo';
+    const TARGET='2026-08-01';
+    const ico=document.getElementById('wx-ico');
+    const temp=document.getElementById('wx-temp');
+    const desc=document.getElementById('wx-desc');
+    const foot=document.getElementById('wx-foot');
+    if(!temp) return;
+    const WMO={0:['☀️','sol'],1:['🌤️','sol com poucas nuvens'],2:['⛅','sol entre nuvens'],3:['☁️','tempo nublado'],
+      45:['🌫️','névoa'],48:['🌫️','névoa'],51:['🌦️','garoa'],53:['🌦️','garoa'],55:['🌦️','garoa'],
+      61:['🌧️','chuva'],63:['🌧️','chuva'],65:['🌧️','chuva forte'],66:['🌧️','chuva'],67:['🌧️','chuva'],
+      71:['❄️','neve'],73:['❄️','neve'],75:['❄️','neve'],
+      80:['🌦️','pancadas de chuva'],81:['🌦️','pancadas de chuva'],82:['⛈️','pancadas de chuva'],
+      95:['⛈️','tempestade'],96:['⛈️','tempestade'],99:['⛈️','tempestade']};
+    const look=c=>WMO[c]||['🌡️','tempo indefinido'];
+    const past=c=>{
+      if(c<=1) return 'fez sol';
+      if(c===2) return 'fez sol entre nuvens';
+      if(c===3) return 'ficou nublado';
+      if(c===45||c===48) return 'amanheceu com névoa';
+      if(c>=51&&c<=55) return 'garoou';
+      if((c>=61&&c<=67)||(c>=80&&c<=82)) return 'choveu';
+      if(c>=95) return 'deu tempestade';
+      return 'fez um tempo firme';
+    };
+    const r1=n=>Math.round(n);
+    const j=u=>fetch(u).then(r=>r.json());
+    const dias=Math.ceil((new Date(TARGET+'T13:00:00-03:00')-new Date())/86400000);
+    async function previsao(){
+      const d=await j(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=${TZ}&start_date=${TARGET}&end_date=${TARGET}`);
+      const dd=d.daily;
+      if(!dd||dd.temperature_2m_max==null||dd.temperature_2m_max[0]==null) throw 0;
+      const [emo,txt]=look(dd.weather_code[0]);
+      const chuva=r1(dd.precipitation_probability_max[0]);
+      ico.textContent=emo;
+      temp.innerHTML=`${r1(dd.temperature_2m_max[0])}° <small>/ ${r1(dd.temperature_2m_min[0])}° à noite</small>`;
+      desc.textContent=`Previsão: ${txt}.`;
+      foot.textContent = chuva>=40
+        ? `${chuva}% de chance de chuva — mas a piscina é aquecida, o banho rola do mesmo jeito. 🏊`
+        : 'A piscina é aquecida, então o banho tá garantido — faça sol ou faça frio. 🏊';
+    }
+    async function tipico(){
+      const ly=(+TARGET.slice(0,4)-1)+TARGET.slice(4);
+      const a=await j(`https://archive-api.open-meteo.com/v1/archive?latitude=${LAT}&longitude=${LON}&start_date=${ly}&end_date=${ly}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=${TZ}`);
+      const dd=a.daily;
+      if(!dd||dd.temperature_2m_max==null||dd.temperature_2m_max[0]==null) throw 0;
+      ico.textContent=look(dd.weather_code[0])[0];
+      temp.innerHTML=`${r1(dd.temperature_2m_max[0])}° <small>/ ${r1(dd.temperature_2m_min[0])}° à noite</small>`;
+      desc.textContent=`No ano passado, 1º de agosto ${past(dd.weather_code[0])} por lá.`;
+      foot.textContent='Costuma ser ameno de dia e fresco à noite — e como a piscina é aquecida, dá pra cair na água numa boa. 🏊';
+    }
+    (async function(){
+      try{ (dias>=0&&dias<=15) ? await previsao() : await tipico(); }
+      catch(e){ try{ await tipico(); }catch(e2){ temp.textContent='—'; desc.textContent='Não rolou carregar o tempo agora.'; foot.textContent=''; } }
+    })();
+    setInterval(()=>{ (async function(){ try{ (dias>=0&&dias<=15)?await previsao():await tipico(); }catch(e){} })(); }, 1800000);
   })();
 </script>
 </body>
