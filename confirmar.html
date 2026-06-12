@@ -6,7 +6,7 @@
 <title>Confirmar presença · DANIversário</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Fraunces:ital,wght@1,400..700&display=swap" rel="stylesheet">
 <style>
   :root{
     --night:#15302a;
@@ -42,7 +42,7 @@
   .back:hover{opacity:1;transform:translateX(-3px);}
 
   .wrap{position:relative;z-index:3;max-width:760px;margin:0 auto;padding:40px 24px 90px;text-align:center;}
-  .script{font-family:'Caveat',cursive;color:var(--gold);font-size:clamp(28px,5vw,40px);font-weight:700;transform:rotate(-2.5deg);display:inline-block;}
+  .script{font-family:'Fraunces',serif;font-style:italic;color:var(--gold);font-size:clamp(28px,5vw,40px);font-weight:600;display:inline-block;}
   h1{font-family:'Gloock',serif;font-weight:400;font-size:clamp(46px,9vw,82px);line-height:.95;margin-top:8px;text-shadow:0 10px 40px rgba(0,0,0,.4);}
   .lead{font-size:clamp(17px,2.4vw,21px);line-height:1.55;opacity:.92;max-width:540px;margin:22px auto 0;text-wrap:balance;}
   .lead b{color:#fff;font-weight:600;}
@@ -85,7 +85,7 @@
   .step .tx b{color:#fff;font-weight:600;}
 
   footer{text-align:center;padding:10px 24px 60px;position:relative;z-index:3;}
-  footer .mark{font-family:'Caveat',cursive;color:var(--gold);font-size:26px;font-weight:700;}
+  footer .mark{font-family:'Fraunces',serif;font-style:italic;color:var(--gold);font-size:26px;font-weight:700;}
   footer p{margin-top:8px;font-size:13px;opacity:.55;}
 </style>
 </head>
@@ -100,16 +100,16 @@
   <main class="wrap">
     <span class="script">tô te esperando</span>
     <h1>Bora confirmar?</h1>
-    <p class="lead">Um clique e pronto: o evento entra na <b>sua agenda</b> e o Dani já sabe que <b>você vem</b>. Tudo de uma vez.</p>
+    <p class="lead">Um clique e pronto: o evento entra na <b>sua agenda</b> e eu já fico sabendo que <b>você vem</b>. Tudo de uma vez.</p>
 
     <!-- ===== Ticket ===== -->
     <div class="ticket">
       <div class="when"><small>Save the date</small>Sábado, 1 de Agosto<br>de 2026</div>
       <div class="rows">
-        <div class="row"><span class="ic">☀</span><span class="tx"><b>13h</b> — churrasco começa, brasa acesa a tarde toda</span></div>
-        <div class="row"><span class="ic">✦</span><span class="tx"><b>18h às 23h</b> — bar com bartender e chopp gelado</span></div>
+        <div class="row"><span class="ic">☀</span><span class="tx"><b>13h</b> · churrasco saindo e o chopp gelado liberado a tarde toda</span></div>
+        <div class="row"><span class="ic">✦</span><span class="tx"><b>18h às 23h</b> · o bartender entra com os drinks personalizados</span></div>
         <div class="row"><span class="ic">☾</span><span class="tx">Tem <b>piscina aquecida</b> e dá pra <b>dormir na chácara</b></span></div>
-        <div class="row"><span class="ic">◷</span><span class="tx">Domingo de boa: café da manhã e saída sem pressa</span></div>
+        <div class="row"><span class="ic">◷</span><span class="tx">Domingo de boa: café da manhã e saída até as 15h</span></div>
       </div>
 
       <a class="btn btn-primary" id="cal" target="_blank" rel="noopener">
@@ -117,15 +117,15 @@
       </a>
       <!-- Botão opcional de WhatsApp pra avisar se vai dormir. Aparece sozinho se você preencher o número em WHATSAPP no script. -->
       <a class="btn btn-wpp" id="wpp" target="_blank" rel="noopener">
-        Vou dormir lá 🏡 — avisar no zap
+        Vou dormir lá 🏡 · aviso no zap
       </a>
 
       <div class="dash"></div>
       <div class="how">
         <h2>Como funciona</h2>
         <div class="step"><span class="no">1</span><span class="tx">Toca em <b>"Adicionar à agenda e confirmar"</b> (precisa estar logado na sua conta Google).</span></div>
-        <div class="step"><span class="no">2</span><span class="tx">O Google abre o evento. Toca em <b>"Sim"</b> e em <b>salvar</b> — entra direto na sua agenda.</span></div>
-        <div class="step"><span class="no">3</span><span class="tx">Pronto! O Dani recebe sua confirmação automaticamente. <b>Sem formulário, sem grupo lotado.</b></span></div>
+        <div class="step"><span class="no">2</span><span class="tx">O Google abre o evento. Toca em <b>"Sim"</b> e em <b>salvar</b>. Entra direto na sua agenda.</span></div>
+        <div class="step"><span class="no">3</span><span class="tx">Pronto! Eu recebo sua confirmação na hora. <b>Sem formulário, sem grupo lotado.</b></span></div>
       </div>
     </div>
   </main>
@@ -144,7 +144,7 @@
   //    deixa a galera responder Sim/Não e você vê quem confirmou).
   //    Enquanto estiver "", o botão usa um modelo que só adiciona à
   //    agenda do convidado (sem te devolver o RSVP).
-  const EVENT_URL = "";
+  const EVENT_URL = "https://calendar.app.google/3hCF2FErSYvyqSiLA";
 
   // 2) Opcional: seu WhatsApp com DDI (ex: "5511999999999") pra
   //    aparecer o botão "vou dormir lá". Deixe "" pra esconder.
@@ -157,8 +157,8 @@
     text: "DANIversário · 28 anos do Dani",
     start: "20260801T160000Z",          // 13h (BRT, UTC-3) = 16:00 UTC
     end:   "20260802T020000Z",          // 23h (BRT) = 02:00 UTC do dia seguinte
-    details: "Churrasco a partir das 13h, bar com bartender e chopp das 18h às 23h. Tem piscina aquecida e dá pra dormir na chácara. Traz a sunga e um agasalho pra noite — agosto esfria!",
-    location: "Chácara em Campo Limpo Paulista · SP (endereço no grupo)"
+    details: "Churrasco a partir das 13h e chopp gelado o dia todo. Às 18h o bartender começa os drinks personalizados, até as 23h. Tem piscina aquecida e dá pra dormir na chácara. Traz a sunga e um agasalho pra noite, que agosto esfria!",
+    location: "Chácara Bela Vista, R. Marselha 1170, Ville Saint James I, Campo Limpo Paulista - SP"
   };
   const template = "https://calendar.google.com/calendar/render?action=TEMPLATE"
     + "&text="     + encodeURIComponent(ev.text)
